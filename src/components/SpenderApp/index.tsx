@@ -1,35 +1,71 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Card, Row, Col } from 'antd';
-import { CarTwoTone, HistoryOutlined, DollarOutlined, UnorderedListOutlined } from '@ant-design/icons';
-import  BudgetOverview  from "../BudgetOverview"
-import './index.css';  
+import { CarTwoTone, HomeOutlined, ShoppingOutlined, ShopOutlined } from '@ant-design/icons';
+import BudgetOverview from '../BudgetOverview';
+import AddModal from '../AddModal';
+import './index.css';
 
-const Main:FC = () => {
+const Main: FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null); 
+
+  const handleCardClick = (category: string) => {
+    setSelectedCategory(category);
+    setIsModalOpen(true); 
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false); 
+    setSelectedCategory(null);
+  };
+
   return (
     <div className="main-container">
-        <BudgetOverview />
+      <BudgetOverview />
       <Row gutter={[30, 0]} className="card-container">
         <Col span={6}>
-          <Card title="Debits" className="custom-card">
-            <DollarOutlined style={{ fontSize: '48px', color: '#1890ff' }} />
+          <Card
+            title="Food"
+            className="custom-card"
+            onClick={() => handleCardClick('Food')}
+          >
+            <ShopOutlined style={{ fontSize: '48px', color: '#1890ff' }} />
           </Card>
         </Col>
         <Col span={6}>
-          <Card title="Auto" className="custom-card">
+          <Card
+            title="Car"
+            className="custom-card"
+            onClick={() => handleCardClick('Car')}
+          >
             <CarTwoTone style={{ fontSize: '48px', color: 'black' }} />
           </Card>
         </Col>
-        <Col span={6}>    
-          <Card title="Buying" className="custom-card">
-            <UnorderedListOutlined style={{ fontSize: '48px', color: '#52c41a' }} />
+        <Col span={6}>
+          <Card
+            title="Shopping"
+            className="custom-card"
+            onClick={() => handleCardClick('Shopping')}
+          >
+            <ShoppingOutlined style={{ fontSize: '48px', color: '#52c41a' }} />
           </Card>
         </Col>
         <Col span={6}>
-          <Card title="History" className="custom-card">
-            <HistoryOutlined style={{ fontSize: '48px', color: '#ff4d4f' }} />
+          <Card
+            title="Home"
+            className="custom-card"
+            onClick={() => handleCardClick('Home')}
+          >
+            <HomeOutlined style={{ fontSize: '48px', color: '#ff4d4f' }} />
           </Card>
         </Col>
       </Row>
+
+      <AddModal
+        isOpen={isModalOpen}
+        category={selectedCategory}
+        handleClose={handleModalClose}
+      />
     </div>
   );
 };
