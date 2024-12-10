@@ -1,50 +1,22 @@
-import { useEffect, useState,FC } from "react";
-import { db } from "../../services/firebase"; 
-import { collection, getDocs } from "firebase/firestore";
+import {  FC } from "react";
 import { Table, Typography, Layout } from "antd";
-import { FIRESTORE_PATH_NAMES } from "../../constants/Path";
-
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
 
-
-
-const BudgetOverview:FC= () => {
+const BudgetOverview: FC<{ dataBase: any[] }> = ({ dataBase }) => {
   const year = new Date().getFullYear();
   const month = new Date().getMonth();
-  const [dataBase, setDataBase] = useState<any[]>([]); 
-  const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, FIRESTORE_PATH_NAMES.SPEND_DATA));
-        const fetchedData = querySnapshot.docs.map((doc) => doc.data());
-        setDataBase(fetchedData);
-      } catch (error) {
-        console.error("Error fetching data from Firestore:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const totalSpend = dataBase
+    .filter((arrItem) => arrItem.type === "Spend")
+    .reduce((acc, value) => acc + +value.amount, 0);
 
-    fetchData();
-  }, []);
+  const income = dataBase
+    .filter((arrItem) => arrItem.type === "Income")
+    .reduce((acc, value) => acc + +value.amount, 0);
 
-  
-  const totalSpend  = dataBase.filter((arrItem)=>{
-    return arrItem.type === "Spend"
-  }).reduce((acc,value)=>{
-    return acc +  +value.amount
-},0)
-const income  = dataBase.filter((arrItem)=>{
-  return arrItem.type === "Income"
-}).reduce((acc,value)=>{
-  return acc +  +value.amount
-},0)
-
-  console.log(totalSpend);
+  console.log("render");
   
   const data = [
     {
@@ -55,7 +27,7 @@ const income  = dataBase.filter((arrItem)=>{
     {
       key: "2",
       description: "Spend",
-      amount:` -${totalSpend}`,
+      amount: `-${totalSpend}`,
     },
   ];
 
@@ -114,7 +86,6 @@ const income  = dataBase.filter((arrItem)=>{
         columns={columns}
         pagination={false}
         style={{ marginTop: "20px" }}
-        loading={loading}
       />
     </Layout>
   );

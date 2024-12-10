@@ -2,27 +2,31 @@ import { FC, useState } from "react";
 import { Modal, Form, Input, DatePicker, notification, Select } from "antd";
 import { db } from "../../services/firebase";
 import { FIRESTORE_PATH_NAMES } from "../../constants/Path";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux"; 
 
 interface AddModalProps {
   isOpen: boolean;
   category: string | null;
   handleClose: () => void;
+  setDataBase: (data: any[]) => void;
 }
 
 const generateUid = () => {
   return (
     Date.now().toString(36) +
-    Math.round(Math.random() + 1000000)
+    Math.round(Math.random() * 1000000)
       .toString(36)
       .substring(1, 4)
   );
 };
 
-const AddModal: FC<AddModalProps> = ({ isOpen, category, handleClose }) => {
+const AddModal: FC<AddModalProps> = ({ isOpen, category, handleClose, setDataBase }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState<boolean>(false);
+
+  const uid = useSelector((state: any) => state.authSlice.uid);
 
   const handleModalClose = () => {
     form.resetFields();
@@ -30,35 +34,65 @@ const AddModal: FC<AddModalProps> = ({ isOpen, category, handleClose }) => {
   };
 
   interface FormValues {
-    type: "Income" | "Spend"; 
+    type: "Income" | "Spend";
     date: dayjs.Dayjs | null;
     amount: number;
     description: string;
   }
 
   const handleOk = async (values: FormValues) => {
+    if (!uid) {
+      notification.error({
+        message: "Error",
+        description: "Could not retrieve user UID",
+      });
+      return;
+    }
+
     setLoading(true);
-    const spendId = generateUid();
-    console.log(values);
-    
+    const transactionId = generateUid(); 
     try {
-      const spendModal = {
-        spendId,
+      const transactionData = {
+        transactionId,
         ...values,
         category,
         date: values.date ? values.date.format("YYYY-MM-DD HH:mm") : null,
       };
-      const createDoc = doc(db, FIRESTORE_PATH_NAMES.SPEND_DATA, spendId);
-      await setDoc(createDoc, spendModal);
+
+      const userDocRef = doc(db, FIRESTORE_PATH_NAMES.USER_TRANSACTIONS, uid);
+
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        const updatedTransactions = [...userDocSnapshot.data()?.transactions, transactionData];
+
+        await updateDoc(userDocRef, {
+          transactions: updatedTransactions,
+        });
+
+        if (setDataBase) {
+          setDataBase(updatedTransactions); 
+        }
+      } else {
+        await setDoc(userDocRef, {
+          transactions: [transactionData],
+        });
+
+        if (setDataBase) {
+          setDataBase([transactionData]); 
+        }
+      }
+
       form.resetFields();
       handleModalClose();
       notification.success({
-        message: "Your spend has been created",
+        message: "Transaction has been added",
       });
-    } catch {
+    } catch (error) {
       notification.error({
-        message: "Error Ops",
+        message: "Error while saving transaction",
       });
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -66,11 +100,11 @@ const AddModal: FC<AddModalProps> = ({ isOpen, category, handleClose }) => {
 
   return (
     <Modal
-      title={`Create spend for ${category}`}
+      title={`Create transaction for ${category}`}
       open={isOpen}
       onCancel={handleModalClose}
       onOk={() => form.submit()}
-      okText="Create spend"
+      okText="Create transaction"
       centered
       confirmLoading={loading}
     >
