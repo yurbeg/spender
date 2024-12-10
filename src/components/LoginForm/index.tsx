@@ -1,9 +1,8 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Form, Input, Button, Typography, notification } from "antd";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { ROUTE_CONSTANTS } from "../../constants/Path";
 import { auth } from "../../services/firebase";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../state-managment/slice/authSlice";
 import { useNavigate } from "react-router-dom";
@@ -25,14 +24,20 @@ const LoginForm: FC = () => {
     setLoading(true);
     try {
       const { email, password } = values;
-      await signInWithEmailAndPassword(auth, email, password);
-      dispatch(login());
-      notification.success({
-        message: "Login Successful",
-        description: "You have logged in successfully!",
-      });
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const uid = userCredential.user?.uid;
 
-      navigate(ROUTE_CONSTANTS.SPENDERAPP);
+      if (uid) {
+        dispatch(login({ uid }));
+        notification.success({
+          message: "Login Successful",
+          description: "You have logged in successfully!",
+        });
+
+        navigate(ROUTE_CONSTANTS.SPENDERAPP);
+      } else {
+        throw new Error("Failed to retrieve user UID.");
+      }
     } catch (error) {
       notification.error({
         message: "Login Error",

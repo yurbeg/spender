@@ -12,7 +12,6 @@ function App() {
     (state: { authSlice: { isAuth: boolean; isLogin: boolean } }) =>
       state.authSlice
   );
-  console.log(isAuth);
   return (
       <Router>
         <Header /> 

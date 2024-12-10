@@ -39,6 +39,15 @@
     margin: 0 auto;
     color: inherit;
   }
+  .main-container {
+    text-align: center;
+  }
+  
+  .income-button-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
   
   @media (max-width: 768px) {
     .card-container {
