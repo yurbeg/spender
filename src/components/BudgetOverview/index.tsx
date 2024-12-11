@@ -29,7 +29,7 @@ const BudgetOverview: FC<{ dataBase: any[] }> = ({ dataBase }) => {
     };
 
     fetchConversionRates();
-  }, []);
+  }, [currency]);
 
   const convertAmount = (amount: number) => {
     if (!conversionRates || !conversionRates[currency]) return amount;
