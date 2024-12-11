@@ -20,18 +20,13 @@ const SpenderApp: FC = () => {
     loading: true,
     error: null as string | null,
   });
-  
-  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-
   const uid = useSelector((state: any) => state.authSlice.uid);
 
   useEffect(() => {
     if (!uid) return;
-
     const userDocRef = doc(db, FIRESTORE_PATH_NAMES.USER_TRANSACTIONS, uid);
-
     const unsubscribe = onSnapshot(
       userDocRef,
       (docSnapshot) => {
@@ -135,7 +130,6 @@ const SpenderApp: FC = () => {
             setDataBase={handleUpdateDataBase}  
           />
           <div className="income-button-container">
-      
             <Button type="primary"   style={{  background:"#003152" }} onClick={() => handleCardClick("Income")} >
               Income
             </Button>
