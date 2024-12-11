@@ -76,7 +76,7 @@ const Header: FC = () => {
                    
                 ) : (
                     <Link to={ROUTE_CONSTANTS.LOGIN}>
-                        <Button>Sign in</Button>
+                        <Button style={{background:"white",color:"black"}}> Sign in</Button>
                     </Link>
                 )}
             </div>
