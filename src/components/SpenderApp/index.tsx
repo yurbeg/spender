@@ -20,6 +20,8 @@ const SpenderApp: FC = () => {
     loading: true,
     error: null as string | null,
   });
+  
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
@@ -133,7 +135,8 @@ const SpenderApp: FC = () => {
             setDataBase={handleUpdateDataBase}  
           />
           <div className="income-button-container">
-            <Button type="primary" onClick={() => handleCardClick("Income")}>
+      
+            <Button type="primary"   style={{  background:"#003152" }} onClick={() => handleCardClick("Income")} >
               Income
             </Button>
           </div>

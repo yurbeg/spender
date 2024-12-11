@@ -4,7 +4,9 @@ import { db } from "../../services/firebase";
 import { FIRESTORE_PATH_NAMES } from "../../constants/Path";
 import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import dayjs from "dayjs";
-import { useSelector } from "react-redux"; 
+import { useSelector, useDispatch } from "react-redux"; 
+import { setCurrency } from "../../state-managment/slice/authSlice";
+import { useNavigate } from "react-router-dom";
 
 interface AddModalProps {
   isOpen: boolean;
@@ -25,8 +27,10 @@ const generateUid = () => {
 const AddModal: FC<AddModalProps> = ({ isOpen, category, handleClose, setDataBase }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const uid = useSelector((state: any) => state.authSlice.uid);
+  const { uid, currency } = useSelector((state: { authSlice: { uid: string; currency: string } }) => state.authSlice);
 
   const handleModalClose = () => {
     form.resetFields();
@@ -38,6 +42,7 @@ const AddModal: FC<AddModalProps> = ({ isOpen, category, handleClose, setDataBas
     date: dayjs.Dayjs | null;
     amount: number;
     description: string;
+    currency: string;
   }
 
   const handleOk = async (values: FormValues) => {
@@ -48,7 +53,6 @@ const AddModal: FC<AddModalProps> = ({ isOpen, category, handleClose, setDataBas
       });
       return;
     }
-
     setLoading(true);
     const transactionId = generateUid(); 
     try {
@@ -98,6 +102,11 @@ const AddModal: FC<AddModalProps> = ({ isOpen, category, handleClose, setDataBas
     }
   };
 
+  const handleCurrencyChange = (value: string) => {
+    dispatch(setCurrency(value)); 
+    navigate(`?currency=${value}`); 
+  };
+
   return (
     <Modal
       title={`Create transaction for ${category}`}
@@ -114,6 +123,7 @@ const AddModal: FC<AddModalProps> = ({ isOpen, category, handleClose, setDataBas
         onFinish={handleOk}
         initialValues={{
           date: dayjs(),
+          currency: currency, 
         }}
       >
         <Form.Item
@@ -129,19 +139,25 @@ const AddModal: FC<AddModalProps> = ({ isOpen, category, handleClose, setDataBas
             ]}
           />
         </Form.Item>
-
         <Form.Item
-          name="date"
-          label="Date and Time"
-          rules={[{ required: true, message: "Please select a date and time" }]}
+          name="currency"
+          label="Currency"
+          rules={[{ required: true, message: "Please select a currency" }]}
         >
-          <DatePicker
-            style={{ width: "100%" }}
-            placeholder="Select date and time"
-            showTime
-            format="YYYY-MM-DD HH:mm"
+          <Select
+            placeholder="Select currency"
+            options={[
+              { label: "USD", value: "USD" },
+              { label: "AMD", value: "AMD" },
+              { label: "EUR", value: "EUR" },
+              { label: "GBP", value: "GBP" },
+              { label: "RUB", value: "RUB" },
+
+            ]}
+            onChange={handleCurrencyChange} 
           />
         </Form.Item>
+        
 
         <Form.Item
           name="amount"
@@ -154,9 +170,23 @@ const AddModal: FC<AddModalProps> = ({ isOpen, category, handleClose, setDataBas
         <Form.Item
           name="description"
           label="Description"
+          rules={[{ required: true, message: "Please input description" }]}
         >
           <Input type="text" placeholder="Description" />
         </Form.Item>
+        <Form.Item
+          name="date"
+          label="Date and Time"
+          rules={[{ required: true, message: "Please select a date and time" }]}
+        >
+          <DatePicker
+            style={{ width: "100%" }}
+            placeholder="Select date and time"
+            showTime
+            format="YYYY-MM-DD HH:mm"
+          />
+        </Form.Item>
+    
       </Form>
     </Modal>
   );

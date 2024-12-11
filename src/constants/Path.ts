@@ -10,4 +10,5 @@ export const ROUTE_CONSTANTS = {
   LOGIN: "/login",
   REGISTER: "/register",
   SPENDERAPP: "/spender-app",
+  HISTORY:"/history"
 };

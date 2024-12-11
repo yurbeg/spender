@@ -1,5 +1,6 @@
 import RegisterForm from "./components/RegisterForm";
 import LoginForm from "./components/LoginForm";
+import History from "./components/History";
 import { ROUTE_CONSTANTS } from "./constants/Path";
 import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -23,6 +24,8 @@ function App() {
             path={ROUTE_CONSTANTS.SPENDERAPP}
             element={!isAuth ? <LoginForm /> : <SpenderApp />}
           />
+          <Route path={ROUTE_CONSTANTS.HISTORY} element={<History />} />
+
         </Routes>
       </Router>
   );

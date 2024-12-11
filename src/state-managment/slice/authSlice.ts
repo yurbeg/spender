@@ -3,13 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 interface AuthState {
   isAuth: boolean;
   uid: string | null; 
+  currency: string; 
 }
 
 const initialState: AuthState = {
   isAuth: localStorage.getItem('isAuthenticated') === "true",
-  uid: localStorage.getItem('uid'), 
+  uid: localStorage.getItem('uid'),
+  currency: localStorage.getItem('currency') || 'USD', 
 };
-
 
 const authSlice = createSlice({
   name: 'auth',
@@ -28,8 +29,12 @@ const authSlice = createSlice({
       localStorage.setItem('isAuthenticated', 'false');
       localStorage.removeItem('uid');
     },
+    setCurrency: (state, action) => { 
+      state.currency = action.payload;
+      localStorage.setItem('currency', action.payload); 
+    },
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, setCurrency } = authSlice.actions;
 export default authSlice.reducer;

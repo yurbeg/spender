@@ -1,4 +1,11 @@
 body, html {
   margin: 0;
   background-color: #f4f6f9; 
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  body, html {
+    
+    overflow: scroll;
+  }
 }

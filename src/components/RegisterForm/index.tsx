@@ -7,8 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { setDoc, doc } from 'firebase/firestore';
 import { FIRESTORE_PATH_NAMES,ROUTE_CONSTANTS } from "../../constants/Path";
 
-import "./index.css";
-
 interface RegisterFormData {
   name: string;
   email: string;

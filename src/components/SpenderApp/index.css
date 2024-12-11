@@ -1,62 +1,87 @@
 .main-container {
-    padding: 30px;
-    background-color: #f0f2f5;
-  }
-  
+  padding: 30px;
+  background-color: #f0f2f5;
+}
+
+.card-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+.custom-card {
+  background-color: #ffffff;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease-in-out;
+  padding: 20px;
+  height: 280px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.custom-card:hover {
+  transform: translateY(-8px);
+}
+
+.custom-card .ant-card-head {
+  background-color: #f0f2f5;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow: visible;
+}
+
+.anticon {
+  display: block;
+  margin: 0 auto;
+  color: inherit;
+}
+
+.main-container {
+  text-align: center;
+}
+
+.income-button-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
   .card-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-top: 40px;
+    justify-content: space-around;
   }
-  
+
   .custom-card {
-    background-color: #ffffff;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease-in-out;
-    padding: 20px;
-    height: 280px;
-    text-align: center;
-    overflow: hidden;
+    margin-bottom: 20px;
   }
-  
-  .custom-card:hover {
-    transform: translateY(-8px);
+}
+
+@media (max-width: 768px) {
+  .card-container {
+    justify-content: center;
   }
-  
-  .custom-card .ant-card-head {
-    background-color: #f0f2f5;
-    text-align: center;
-    font-weight: bold;
-    font-size: 20px;
-    white-space: normal;
-    word-wrap: break-word;
-    overflow: visible;
+
+  .custom-card {
+    margin-bottom: 20px;
   }
-  
-  .anticon {
-    display: block;
-    margin: 0 auto;
-    color: inherit;
+}
+
+@media (max-width: 480px) {
+  .custom-card {
+    height: auto;
   }
+
   .main-container {
-    text-align: center;
+    padding: 20px;
   }
   
   .income-button-container {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
+    flex-direction: column;
+    margin-top: 15px;
   }
-  
-  @media (max-width: 768px) {
-    .card-container {
-      flex-direction: column;
-      align-items: center;
-    }
-    .custom-card {
-      margin-bottom: 20px;
-      width: 100%;
-    }
-  }
-  
+}
