@@ -86,6 +86,7 @@ const SpenderApp: FC = () => {
           <Row gutter={[30, 0]} className="card-container">
             <Col span={6}>
               <Card
+              hoverable
                 title="Food"
                 className="custom-card"
                 onClick={() => handleCardClick("Food")}
@@ -95,6 +96,7 @@ const SpenderApp: FC = () => {
             </Col>
             <Col span={6}>
               <Card
+              hoverable
                 title="Car"
                 className="custom-card"
                 onClick={() => handleCardClick("Car")}
@@ -104,6 +106,7 @@ const SpenderApp: FC = () => {
             </Col>
             <Col span={6}>
               <Card
+              hoverable
                 title="Shopping"
                 className="custom-card"
                 onClick={() => handleCardClick("Shopping")}
@@ -115,6 +118,7 @@ const SpenderApp: FC = () => {
             </Col>
             <Col span={6}>
               <Card
+              hoverable
                 title="Home"
                 className="custom-card"
                 onClick={() => handleCardClick("Home")}

@@ -6,7 +6,6 @@ import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import dayjs from "dayjs";
 import { useSelector, useDispatch } from "react-redux"; 
 import { setCurrency } from "../../state-managment/slice/authSlice";
-import { useNavigate } from "react-router-dom";
 
 interface AddModalProps {
   isOpen: boolean;
@@ -15,7 +14,7 @@ interface AddModalProps {
   setDataBase: (data: any[]) => void;
 }
 
-const generateUid = () => {
+const generateId = () => {
   return (
     Date.now().toString(36) +
     Math.round(Math.random() * 1000000)
@@ -28,7 +27,6 @@ const AddModal: FC<AddModalProps> = ({ isOpen, category, handleClose, setDataBas
   const [form] = Form.useForm();
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const { uid, currency } = useSelector((state: { authSlice: { uid: string; currency: string } }) => state.authSlice);
 
@@ -54,7 +52,7 @@ const AddModal: FC<AddModalProps> = ({ isOpen, category, handleClose, setDataBas
       return;
     }
     setLoading(true);
-    const transactionId = generateUid(); 
+    const transactionId = generateId(); 
     try {
       const transactionData = {
         transactionId,
@@ -64,12 +62,9 @@ const AddModal: FC<AddModalProps> = ({ isOpen, category, handleClose, setDataBas
       };
 
       const userDocRef = doc(db, FIRESTORE_PATH_NAMES.USER_TRANSACTIONS, uid);
-
       const userDocSnapshot = await getDoc(userDocRef);
-
       if (userDocSnapshot.exists()) {
         const updatedTransactions = [...userDocSnapshot.data()?.transactions, transactionData];
-
         await updateDoc(userDocRef, {
           transactions: updatedTransactions,
         });
@@ -104,7 +99,6 @@ const AddModal: FC<AddModalProps> = ({ isOpen, category, handleClose, setDataBas
 
   const handleCurrencyChange = (value: string) => {
     dispatch(setCurrency(value)); 
-    navigate(`?currency=${value}`); 
   };
 
   return (

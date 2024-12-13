@@ -1,75 +1,86 @@
-.form-content {
+/* LoginForm.css */
+
+/* Ensures that styles are applied only to LoginForm */
+.login-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.login-form-content {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  margin: 0 auto;
-  padding: 30px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.form-content h2 {
   text-align: center;
+}
+
+.login-form-content h2 {
   font-size: 24px;
+  margin-bottom: 20px;
   color: #333;
+}
+
+.login-form .ant-form-item {
   margin-bottom: 20px;
 }
 
-.ant-form-item { 
-  margin-bottom: 20px;
-}
-
-.ant-form-item-label {
+.login-form .ant-form-item-label {
   font-weight: bold;
-  color: #333;
 }
 
-.ant-input,
-.ant-input-password {
+.login-form .ant-input,
+.login-form .ant-input-password {
   height: 40px;
   font-size: 16px;
-  padding: 0 15px;
-  border-radius: 5px;
+  padding: 10px;
+  border-radius: 4px;
   border: 1px solid #d9d9d9;
 }
 
-.ant-input:focus,
-.ant-input-password:focus {
-  border-color: #40a9ff;
-  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
-}
-
-.ant-form-item-has-feedback .ant-input-password {
-  border-color: #40a9ff;
-}
-
-.ant-btn {
+.login-form .ant-btn {
+  width: 100%;
   height: 40px;
   font-size: 16px;
   background-color: #1890ff;
   color: #fff;
-  border-radius: 5px;
+  border-radius: 4px;
   border: none;
 }
 
-.ant-btn:hover,
-.ant-btn:focus {
+.login-form .ant-btn:focus,
+.login-form .ant-btn:hover {
   background-color: #40a9ff;
-  color: #fff;
-  box-shadow: 0 2px 6px rgba(24, 144, 255, 0.15);
 }
 
-.ant-typography .ant-typography-link {
-  font-weight: bold;
+.login-form .form-item-right {
+  text-align: right;
+}
+
+.login-form .form-item-right .ant-typography-text {
+  font-size: 14px;
+  color: #555;
+}
+
+.login-form .form-item-right .ant-typography-link {
+  font-size: 14px;
   color: #1890ff;
-  text-decoration: none;
 }
 
-.ant-typography .ant-typography-link:hover {
+.login-form .form-item-right .ant-typography-link:hover {
   text-decoration: underline;
 }
 
-.ant-typography-text {
-  font-size: 14px;
-  color: #666;
+@media (max-width: 768px) {
+  .login-form-content {
+    padding: 20px;
+  }
+
+  .login-form-content h2 {
+    font-size: 20px;
+  }
 }

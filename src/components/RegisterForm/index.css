@@ -1,0 +1,87 @@
+/* RegisterForm.css */
+
+/* Ensures that styles are applied only to RegisterForm */
+.register-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+  }
+  
+  .register-form-content {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+  }
+  
+  .register-form-content h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .register-form .ant-form-item {
+    margin-bottom: 20px;
+  }
+  
+  .register-form .ant-form-item-label {
+    font-weight: bold;
+  }
+  
+  .register-form .ant-input,
+  .register-form .ant-input-password {
+    height: 40px;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #d9d9d9;
+  }
+  
+  .register-form .ant-btn {
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    background-color: #1890ff;
+    color: #fff;
+    border-radius: 4px;
+    border: none;
+  }
+  
+  .register-form .ant-btn:focus,
+  .register-form .ant-btn:hover {
+    background-color: #40a9ff;
+  }
+  
+  .register-form .form-item-right {
+    text-align: right;
+  }
+  
+  .register-form .form-item-right .ant-typography-text {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .register-form .form-item-right .ant-typography-link {
+    font-size: 14px;
+    color: #1890ff;
+  }
+  
+  .register-form .form-item-right .ant-typography-link:hover {
+    text-decoration: underline;
+  }
+  
+  @media (max-width: 768px) {
+    .register-form-content {
+      padding: 20px;
+    }
+  
+    .register-form-content h2 {
+      font-size: 20px;
+    }
+  }
+  

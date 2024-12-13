@@ -1,11 +1,13 @@
-import { FC } from "react";
-import { Form, Input, Button, Typography,notification } from "antd";
-import { useState } from "react";
+import { FC, useState } from "react";
+import { Form, Input, Button, Typography, notification } from "antd";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth,db} from '../../services/firebase';
+import { auth, db } from '../../services/firebase';
 import { useNavigate } from "react-router-dom";
 import { setDoc, doc } from 'firebase/firestore';
-import { FIRESTORE_PATH_NAMES,ROUTE_CONSTANTS } from "../../constants/Path";
+import { FIRESTORE_PATH_NAMES, ROUTE_CONSTANTS } from "../../constants/Path";
+import "./index.css";
+
+const { Link } = Typography;
 
 interface RegisterFormData {
   name: string;
@@ -14,13 +16,12 @@ interface RegisterFormData {
   confirm: string;
 }
 
-const { Link } = Typography;
-
 const RegisterForm: FC = () => {
-  const [loading,setLoading] = useState<boolean>(false)
-  const navigate = useNavigate()
+  const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+
   const onFinish = async (values: RegisterFormData) => {
-    setLoading(true)
+    setLoading(true);
     const { name, email, password } = values;
 
     try {
@@ -35,19 +36,20 @@ const RegisterForm: FC = () => {
         description: 'You have registered successfully!',
       });
       navigate(ROUTE_CONSTANTS.LOGIN);
-      
-    }
-    catch(error){
+    } catch (error) {
       console.log(error);
-    }
-    finally{
-      setLoading(false)
+      notification.error({
+        message: 'Registration Failed',
+        description: 'There was an issue with your registration.',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <div className="form-content">
+    <div className="register-form-container">
+      <div className="register-form-content">
         <h2>Register</h2>
         <Form
           name="register_form"

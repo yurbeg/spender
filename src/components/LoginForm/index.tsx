@@ -26,7 +26,6 @@ const LoginForm: FC = () => {
       const { email, password } = values;
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const uid = userCredential.user?.uid;
-
       if (uid) {
         dispatch(login({ uid }));
         notification.success({
@@ -49,8 +48,8 @@ const LoginForm: FC = () => {
   };
 
   return (
-    <div className="form-container">
-      <div className="form-content">
+    <div className="login-form-container">
+      <div className="login-form-content">
         <h2>Login</h2>
         <Form
           name="login_form"
@@ -85,7 +84,7 @@ const LoginForm: FC = () => {
               },
             ]}
           >
-            <Input.Password placeholder="Password" />
+            <Input.Password placeholder="Password"/>
           </Form.Item>
 
           <Form.Item>
@@ -94,7 +93,7 @@ const LoginForm: FC = () => {
             </Button>
           </Form.Item>
 
-          <Form.Item style={{ textAlign: "center" }}>
+          <Form.Item  className="form-item-right">
             <Typography.Text>Don't have an account? </Typography.Text>
             <Link href={ROUTE_CONSTANTS.REGISTER}>Register</Link>
           </Form.Item>

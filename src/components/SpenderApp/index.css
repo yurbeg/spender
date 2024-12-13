@@ -7,7 +7,6 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-top: 40px;
 }
 
 .custom-card {
@@ -50,7 +49,6 @@
   justify-content: center;
 }
 
-/* Responsive Styles */
 @media (max-width: 1200px) {
   .card-container {
     justify-content: space-around;
